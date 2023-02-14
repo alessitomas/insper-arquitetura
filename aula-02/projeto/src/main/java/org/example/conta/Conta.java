@@ -4,7 +4,7 @@ import org.example.pessoa.Pessoa;
 
 public class Conta {
 
-    private Float saldo = 0f;
+    protected Float saldo = 0f;
     private Pessoa pessoa;
 
     public Conta() {}
@@ -40,5 +40,9 @@ public class Conta {
 
     public void setPessoa(Pessoa pessoa) {
         this.pessoa = pessoa;
+    }
+    @Override
+    public String toString(){
+        return this.getPessoa().getNome() + " " + saldo;
     }
 }
