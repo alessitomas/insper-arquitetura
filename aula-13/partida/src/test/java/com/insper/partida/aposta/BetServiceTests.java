@@ -1,6 +1,7 @@
 package com.insper.partida.aposta;
 
 import com.insper.partida.equipe.Team;
+import com.insper.partida.game.Game;
 import com.insper.partida.game.GameService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -30,8 +31,29 @@ public class BetServiceTests {
 
     @Test
     void test_saveBet() {
+        // create a bet
+        Bet bet = new Bet();
+        bet.setResult(BetResult.HOME);
+        bet.setStatus(BetStatus.WON);
+        // create a game
+        Game game = new Game();
+        game.setIdentifier("123");
+        // set the game to the bet
+        bet.setGame(game);
 
+        Mockito.when(gameService.getGame("123")).thenReturn(game);
+        Mockito.when(betRespository.save(bet)).thenReturn(bet);
+        
+        Bet resp = betService.saveBet(bet);
+
+
+        Assertions.assertEquals(BetResult.HOME, resp.getResult());
+        Assertions.assertEquals(BetStatus.WON, resp.getStatus());
+        Assertions.assertEquals(game, resp.getGame());
+
+     
     }
+    
 
 
     @Test
@@ -44,6 +66,7 @@ public class BetServiceTests {
         List<Bet> bets = new ArrayList<>();
 
         Mockito.when(betRespository.findAll()).thenReturn(bets);
+        bets.add(bet); // add the bet to the list
 
         List<Bet> resp = betService.listBets();
 

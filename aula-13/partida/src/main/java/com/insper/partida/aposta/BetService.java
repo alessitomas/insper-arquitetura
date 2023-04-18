@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class BetService {
@@ -29,11 +30,12 @@ public class BetService {
     }
 
     public List<Bet> listBets() {
-        return null;
+        return betRespository.findAll();
     }
 
     public Bet verifyBet(Integer betId) {
-        return null;
+        Bet bet = betRespository.findById(betId).orElseThrow(() -> new RuntimeException("Bet not found"));
+        return bet;
     }
 
 }
